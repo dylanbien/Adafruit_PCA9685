@@ -37,16 +37,16 @@ class Adafruit_Ease_Lib():
 
     def set_high(self, pin):
         if pin == 'all':
-            self.set_all_pwm(HIGH, 0)
+            self.adafruit.set_all_pwm(HIGH, 0)
         elif isinstance(pin, list):
-            for i in range(pin):
+            for i in range(len(pin)):
                 self.adafruit.set_pwm(i, HIGH, 0)
         else:
             self.adafruit.set_pwm(pin, HIGH, 0)
 
     def set_low(self, pin):
         if pin == 'all':
-            self.set_all_pwm(LOW, 0)
+            self.adafruit.set_all_pwm(LOW, 0)
         elif isinstance(pin, list):
             for i in range(len(pin)):
                 self.adafruit.set_pwm(i, LOW, 0)
