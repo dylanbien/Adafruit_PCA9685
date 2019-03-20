@@ -3,6 +3,9 @@ import Adafruit_PCA9685
 
 HIGH = 4096
 LOW = 0
+SERVO_NEUTRAL_PERIOD = 1.5
+SERVO_MAX_PERIOD = 2
+SERVO_MIN_PERIOD = 1
 
 
 class Adafruit_Ease_Lib(Adafruit_PCA9685):
@@ -10,6 +13,17 @@ class Adafruit_Ease_Lib(Adafruit_PCA9685):
         self.adafruit = Adafruit_PCA9685.PCA9685(address = kwargs.get('address',40))
         self.num_pins = 16
         print('Adafruit initialized')
+
+
+    def move_servo(self,servo_pin,angle):
+        self.change_frequency(50)
+        if angle > 90 or angle < 0:
+            raise Exception('Maximum Value Exceeded. The angle range is 0-90 degrees')
+        #value = int((angle/90)*4095)
+        self.change_percentage((10*angle)/90)
+
+
+
 
     def change_frequency(self, freq):
         self.adafruit.set_pwm_freq(freq)
