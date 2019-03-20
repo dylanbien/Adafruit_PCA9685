@@ -8,9 +8,10 @@ SERVO_MAX_PERIOD = 2
 SERVO_MIN_PERIOD = 1
 
 
-class Adafruit_Ease_Lib(Adafruit_PCA9685):
-    def __init__(self,*args,**kwargs):
-        self.adafruit = Adafruit_PCA9685.PCA9685(address = kwargs.get('address',40))
+class Adafruit_Ease_Lib():
+    
+    def __init__(self, **kwargs):
+        self.adafruit = Adafruit_PCA9685.PCA9685()
         self.num_pins = 16
         print('Adafruit initialized')
 
@@ -57,7 +58,7 @@ class Adafruit_Ease_Lib(Adafruit_PCA9685):
             self.set_high(pin)
             return
         elif percent == 0:
-            self.set_high(pin)
+            self.set_low(pin)
             return
         percentage = int(4095 - (percent/100)*4095)
         if pin == 'all':
