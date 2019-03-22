@@ -10,10 +10,10 @@ class Adafruit_Ease_Lib():
     SERVO_MID_TIME = 336
     SERVO_MAX_TIME = 560
 
-    def __init__(self,offsets: None, **kwargs):
+    def __init__(self,offsets = None, **kwargs):
         self.adafruit = Adafruit_PCA9685.PCA9685()
         self.num_pins = 16
-        if offsets not None:
+        if not (offsets  == None):
             self.set_servo_limits(offsets[0],offsets[1],offsets[2])
         print('Adafruit initialized')
 
