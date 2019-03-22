@@ -3,31 +3,33 @@ import Adafruit_PCA9685
 
 HIGH = 4096
 LOW = 0
-SERVO_NEUTRAL_PERIOD = 1.5
-SERVO_MAX_PERIOD = 2
-SERVO_MIN_PERIOD = 1
-
 
 class Adafruit_Ease_Lib():
-    
-    def __init__(self, **kwargs):
+
+    SERVO_LOW_TIME = 123
+    SERVO_MID_TIME = 336
+    SERVO_MAX_TIME = 560
+
+    def __init__(self,offsets: None, **kwargs):
         self.adafruit = Adafruit_PCA9685.PCA9685()
         self.num_pins = 16
+        if offsets not None:
+            self.set_servo_limits(offsets[0],offsets[1],offsets[2])
         print('Adafruit initialized')
-
-
-    def move_servo(self,servo_pin,angle):
-        self.change_frequency(50)
-        if angle > 90 or angle < 0:
-            raise Exception('Maximum Value Exceeded. The angle range is 0-90 degrees')
-        #value = int((angle/90)*4095)
-        self.change_percentage((10*angle)/90)
 
 
 
 
     def change_frequency(self, freq):
         self.adafruit.set_pwm_freq(freq)
+
+    def set_servo_limits(self, left, center, right):
+        Adafruit_Ease_Lib.SERVO_LOW_TIME = left
+        Adafruit_Ease_Lib.SERVO_MID_TIME = center
+        Adafruit_Ease_Lib.SERVO_MAX_TIME = right
+        print(left)
+        print(center)
+        print(right)
 
     def convert_freq_to_period(self, freq):
         return 1/freq
@@ -62,12 +64,39 @@ class Adafruit_Ease_Lib():
             return
         percentage = int(4095 - (percent/100)*4095)
         if pin == 'all':
-            self.adafruit.set_all_pwm(percentage, 0)
+            self.adafruit.set_all_pwm(percentage, LOW)
 
         elif isinstance(pin, list):
             for i in range(len(pin)):
-                self.adafruit.set_pwm(i, percentage, 0)
+                self.adafruit.set_pwm(i, percentage, LOW)
 
         else:
-            self.adafruit.set_pwm(pin, percentage, 0)
+            self.adafruit.set_pwm(pin, percentage, LOW)
 
+    def change_percentage_servo(self, pin, percent):
+        self.adafruit.set_pwm_freq(50)
+        if percent == 100:
+            self.adafruit.set_pwm(pin,380,360)
+            print("moving to right")
+
+        elif percent == 0:
+            self.adafruit.set_pwm(pin, 0, Adafruit_Ease_Lib.SERVO_LOW_TIME)
+            print("moving to center")
+        elif percent == 50:
+            print(Adafruit_Ease_Lib.SERVO_MID_TIME)
+            self.adafruit.set_pwm(pin, 0, Adafruit_Ease_Lib.SERVO_MID_TIME)
+            return
+        elif percent < 50:
+            percentage = percent
+            value = int(percentage * (1/50) * (Adafruit_Ease_Lib.SERVO_MID_TIME-Adafruit_Ease_Lib.SERVO_LOW_TIME) + Adafruit_Ease_Lib.SERVO_LOW_TIME)
+            print('moving to ' + str(value))
+            self.adafruit.set_pwm(pin, 0, value)
+        elif percent > 50:
+            percentage = (percent - 50)
+            value = int(percentage * (1 / 50) * (Adafruit_Ease_Lib.SERVO_MAX_TIME - Adafruit_Ease_Lib.SERVO_MID_TIME) + Adafruit_Ease_Lib.SERVO_MID_TIME)
+            print('moving to ' + str(value))
+            self.adafruit.set_pwm(pin, 0, value)
+
+s = Adafruit_Ease_Lib()
+#s.change_percentage(5,0)
+s.change_percentage_servo(5,100)
