@@ -97,6 +97,3 @@ class Adafruit_Ease_Lib():
             print('moving to ' + str(value))
             self.adafruit.set_pwm(pin, 0, value)
 
-s = Adafruit_Ease_Lib()
-#s.change_percentage(5,0)
-s.change_percentage_servo(5,100)
