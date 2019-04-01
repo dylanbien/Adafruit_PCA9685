@@ -1,7 +1,7 @@
 from Adafruit_Ease_Lib import Adafruit_Ease_Lib as al
 from time import sleep
 
-#USE THIS FILE IN A COMMAND PROMPT
+#USE THIS FILE IN A COMMAND LINE
 
 
 pin = input('enter the pin of the servo: ')
