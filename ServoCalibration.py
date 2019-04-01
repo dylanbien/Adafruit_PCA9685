@@ -23,4 +23,4 @@ while response == 'n':
 adafruit.SERVO_LOW_TIME += pwm_val
 adafruit.SERVO_MAX_TIME += pwm_val
 
-print('HERE ARE YOUR NEW PWM VALUES [LEFT,MID,CENTER]: (%d, %d, %d)') % (adafruit.SERVO_LOW_TIME, adafruit.SERVO_MID_TIME, adafruit.SERVO_MAX_TIME)
+print('HERE ARE YOUR NEW PWM VALUES [LEFT,MID,CENTER]: '+ str(adafruit.SERVO_LOW_TIME) + ' , ' + str(adafruit.SERVO_MID_TIME) +' , '+str(adafruit.SERVO_MAX_TIME))
