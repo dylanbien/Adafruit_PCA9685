@@ -76,7 +76,8 @@ class Adafruit_Ease_Lib():
     def change_percentage_servo(self, pin, percent):
         self.adafruit.set_pwm_freq(50)
         if percent == 100:
-            self.adafruit.set_pwm(pin,380,360)
+            #self.adafruit.set_pwm(pin,380,360)
+            self.adafruit.set_pwm(pin, 0, Adafruit_Ease_Lib.SERVO_MAX_TIME)
             print("moving to right")
 
         elif percent == 0:
