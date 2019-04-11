@@ -90,7 +90,7 @@ class Adafruit_Ease_Lib():
                 self.adafruit.set_pwm(i, percentage, LOW)
 
         else:
-            self.adafruit.set_pwm(pin, percentage, LOW)
+            self.adafruit.set_pwm(pin, int(percentage), LOW)
 
     '''
     percent - percent of a 180 degree rotation the servo is meant to turn to
