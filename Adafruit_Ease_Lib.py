@@ -15,12 +15,12 @@ class Adafruit_Ease_Lib():
     offests - if the servo limits are known to be different from the standards, provide the 
     new servo limits in this array. Defaults to noe
     '''
-    def __init__(self,offsets = None):
-        self.adafruit = Adafruit_PCA9685.PCA9685()
+    def __init__(self,offsets = None, address = 40):
+        self.adafruit = Adafruit_PCA9685.PCA9685(address)
         self.num_pins = 16
         if not (offsets  == None):
             self.set_servo_limits(offsets[0],offsets[1],offsets[2])
-        print('Adafruit initialized')
+        print('Adafruit initialized: address ' + str(address))
 
 
     def change_frequency(self, freq):
